@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { Calendar, MapPin, Clock, Plus, Minus, Trash2 } from 'lucide-react';
-import { FormField } from '../types';
+import { Calendar, MapPin, Clock } from 'lucide-react';
 
 const HostEvent = () => {
-  const [formFields, setFormFields] = useState<FormField[]>([]);
   const [eventData, setEventData] = useState({
     title: '',
     description: '',
@@ -13,29 +11,8 @@ const HostEvent = () => {
     imageUrl: ''
   });
 
-  const addFormField = () => {
-    const newField: FormField = {
-      id: `field-${formFields.length + 1}`,
-      type: 'text',
-      label: '',
-      required: false
-    };
-    setFormFields([...formFields, newField]);
-  };
-
-  const removeFormField = (id: string) => {
-    setFormFields(formFields.filter(field => field.id !== id));
-  };
-
-  const handleFieldChange = (id: string, key: keyof FormField, value: any) => {
-    setFormFields(formFields.map(field => 
-      field.id === id ? { ...field, [key]: value } : field
-    ));
-  };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
   };
 
   return (
@@ -125,72 +102,25 @@ const HostEvent = () => {
 
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-1">
-                Event Image URL
+                Event Image
               </label>
               <input
-                type="url"
-                value={eventData.imageUrl}
-                onChange={(e) => setEventData({ ...eventData, imageUrl: e.target.value })}
-                className="w-full px-4 py-2 bg-secondary-light border border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-white"
-                required
-              />
+  type="file"
+  accept="image/*" // Restricts file selection to images
+  onChange={(e) => {
+    const file = (e.target.files != null) ? e.target.files[0] : null;
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setEventData({ ...eventData, imageUrl: reader.result as string}); // Store the data URL
+      };
+      reader.readAsDataURL(file); // Read the file as a data URL
+    }
+  }}
+  className="w-full px-4 py-2 bg-secondary-light border border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-white"
+  required
+/>
             </div>
-          </div>
-        </div>
-
-        <div className="bg-secondary rounded-lg shadow-md p-6">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-xl font-semibold text-white">Registration Form Fields</h2>
-            <button
-              type="button"
-              onClick={addFormField}
-              className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-accent transition-all duration-300 transform hover:scale-105 hover:shadow-lg flex items-center gap-2"
-            >
-              <Plus className="w-4 h-4" />
-              Add Field
-            </button>
-          </div>
-
-          <div className="space-y-4">
-            {formFields.map((field) => (
-              <div key={field.id} className="flex items-start gap-4 p-4 border border-gray-600 rounded-lg bg-secondary-light group hover:border-primary transition-colors">
-                <div className="flex-1 grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-1">
-                      Field Label
-                    </label>
-                    <input
-                      type="text"
-                      value={field.label}
-                      onChange={(e) => handleFieldChange(field.id, 'label', e.target.value)}
-                      className="w-full px-4 py-2 bg-secondary border border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-white"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-1">
-                      Field Type
-                    </label>
-                    <select
-                      value={field.type}
-                      onChange={(e) => handleFieldChange(field.id, 'type', e.target.value)}
-                      className="w-full px-4 py-2 bg-secondary border border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-white"
-                    >
-                      <option value="text">Text</option>
-                      <option value="email">Email</option>
-                      <option value="tel">Phone</option>
-                      <option value="textarea">Long Text</option>
-                    </select>
-                  </div>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => removeFormField(field.id)}
-                  className="p-2 text-gray-400 hover:text-primary transition-colors"
-                >
-                  <Trash2 className="w-5 h-5" />
-                </button>
-              </div>
-            ))}
           </div>
         </div>
 

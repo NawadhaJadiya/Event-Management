@@ -4,7 +4,7 @@ import { Event } from '../types';
 import { Link } from 'react-router-dom';
 
 const RegisteredEvents = () => {
-  // This would come from your API/state management
+  
   const events: Event[] = [
     {
       id: '1',
