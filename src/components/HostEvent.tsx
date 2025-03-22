@@ -8,7 +8,13 @@ const HostEvent = () => {
     date: '',
     location: '',
     registrationDeadline: '',
-    imageUrl: ''
+    imageUrl: '',
+    chapterName: '',
+    eventType: '',
+    maxParticipants: '',
+    endDate: '',
+    organizers: '',
+    speakers: ''
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -47,6 +53,51 @@ const HostEvent = () => {
                 className="w-full px-4 py-2 bg-secondary-light border border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-white"
                 rows={4}
                 required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-1">
+                Chapter Name
+              </label>
+              <input
+                type="text"
+                value={eventData.chapterName}
+                onChange={(e) => setEventData({ ...eventData, chapterName: e.target.value })}
+                className="w-full px-4 py-2 bg-secondary-light border border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-white"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-1">
+                Event Type
+              </label>
+              <select
+                value={eventData.eventType}
+                onChange={(e) => setEventData({ ...eventData, eventType: e.target.value })}
+                className="w-full px-4 py-2 bg-secondary-light border border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-white"
+                required
+              >
+                <option value="">Select Event Type</option>
+                <option value="workshop">Workshop</option>
+                <option value="seminar">Seminar</option>
+                <option value="webinar">Webinar</option>
+                <option value="recruitment">Recruitment</option>
+                <option value="competition">Competition</option>
+                <option value="quiz">Quiz</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-1">
+                Max Participants
+              </label>
+              <input
+                type="number"
+                value={eventData.maxParticipants}
+                onChange={(e) => setEventData({ ...eventData, maxParticipants: e.target.value })}
+                className="w-full px-4 py-2 bg-secondary-light border border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-white"
               />
             </div>
 
@@ -102,24 +153,60 @@ const HostEvent = () => {
 
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-1">
+                End Date (Optional)
+              </label>
+              <input
+                type="date"
+                value={eventData.endDate}
+                onChange={(e) => setEventData({ ...eventData, endDate: e.target.value })}
+                className="w-full px-4 py-2 bg-secondary-light border border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-white"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-1">
+                Organizers (Optional)
+              </label>
+              <input
+                type="text"
+                value={eventData.organizers}
+                onChange={(e) => setEventData({ ...eventData, organizers: e.target.value })}
+                className="w-full px-4 py-2 bg-secondary-light border border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-white"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-1">
+                Speakers (Optional)
+              </label>
+              <input
+                type="text"
+                value={eventData.speakers}
+                onChange={(e) => setEventData({ ...eventData, speakers: e.target.value })}
+                className="w-full px-4 py-2 bg-secondary-light border border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-white"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-1">
                 Event Image
               </label>
               <input
-  type="file"
-  accept="image/*" // Restricts file selection to images
-  onChange={(e) => {
-    const file = (e.target.files != null) ? e.target.files[0] : null;
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setEventData({ ...eventData, imageUrl: reader.result as string}); // Store the data URL
-      };
-      reader.readAsDataURL(file); // Read the file as a data URL
-    }
-  }}
-  className="w-full px-4 py-2 bg-secondary-light border border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-white"
-  required
-/>
+                type="file"
+                accept="image/*" // Restricts file selection to images
+                onChange={(e) => {
+                  const file = (e.target.files != null) ? e.target.files[0] : null;
+                  if (file) {
+                    const reader = new FileReader();
+                    reader.onloadend = () => {
+                      setEventData({ ...eventData, imageUrl: reader.result as string}); // Store the data URL
+                    };
+                    reader.readAsDataURL(file); // Read the file as a data URL
+                  }
+                }}
+                className="w-full px-4 py-2 bg-secondary-light border border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-white"
+                required
+              />
             </div>
           </div>
         </div>
